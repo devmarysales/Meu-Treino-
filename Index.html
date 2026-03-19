@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Treino</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1>Meu Treino</h1>
+      <span>Acompanhamento- Treino Mensal</span>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-bottom">
+      <button class="sidebar-btn sidebar-btn-charts" onclick="openChartsPanel()">📈 Painel de gráficos</button>
+      <button class="sidebar-btn" onclick="openHistoryModal()">📊 Histórico geral</button>
+      <button class="sidebar-btn" onclick="openAddExModal()">➕ Novo exercício</button>
+      <button class="sidebar-btn" onclick="exportData()">💾 Exportar dados</button>
+      <button class="sidebar-btn btn-danger" onclick="confirmReset()">🗑 Resetar progresso</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main" id="mainArea">
+    <!-- Timer vive aqui, acima do contentArea, e NUNCA é movido pelo JS -->
+    <div class="timer-card" id="timerCard" style="display:none">
+      <div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-bottom:4px">DESCANSO</div>
+        <div class="timer-display" id="timerDisplay">00:00</div>
+      </div>
+      <div>
+        <div class="timer-controls">
+          <button class="btn btn-sm btn-acc" id="timerStartBtn" onclick="timerToggle()">▶ Iniciar</button>
+          <button class="btn btn-sm" onclick="timerReset()">↺ Resetar</button>
+        </div>
+        <div class="timer-presets" style="margin-top:8px">
+          <button class="preset-btn" onclick="setTimer(45)">45s</button>
+          <button class="preset-btn" onclick="setTimer(60)">1min</button>
+          <button class="preset-btn active" onclick="setTimer(75)">1:15</button>
+          <button class="preset-btn" onclick="setTimer(90)">1:30</button>
+          <button class="preset-btn" onclick="setTimer(120)">2min</button>
+        </div>
+      </div>
+      <div class="timer-bar-wrap">
+        <div class="timer-bar-bg"><div class="timer-bar-fill" id="timerBarFill" style="width:100%"></div></div>
+      </div>
+    </div>
+    <div id="contentArea"></div>
+  </main>
+</div>
+
+
+
+<!-- Modals -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script src="app.js"></script>
+
+<!-- ── Drawer overlay (mobile) ── -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- ── Sidebar como drawer no mobile ── -->
+<aside class="sidebar-drawer" id="sidebarDrawer">
+  <div class="sidebar-logo" style="display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <h1>HIPERTROFIA</h1>
+      <span>4 semanas · tracker</span>
+    </div>
+    <button onclick="closeDrawer()" style="background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;padding:4px">✕</button>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNavDrawer"></nav>
+  <div class="sidebar-bottom">
+    <button class="sidebar-btn sidebar-btn-charts" onclick="closeDrawer();openChartsPanel()">📈 Painel de gráficos</button>
+    <button class="sidebar-btn" onclick="closeDrawer();openHistoryModal()">📊 Histórico geral</button>
+    <button class="sidebar-btn" onclick="closeDrawer();openAddExModal()">➕ Novo exercício</button>
+    <button class="sidebar-btn" onclick="exportData()">💾 Exportar dados</button>
+    <button class="sidebar-btn btn-danger" onclick="closeDrawer();confirmReset()">🗑 Resetar progresso</button>
+  </div>
+</aside>
+
+<!-- ── Navegação inferior mobile ── -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-nav-btn" id="mnav-menu" onclick="openDrawer()">
+      <span class="nav-icon">☰</span>
+      <span>Menu</span>
+    </button>
+    <button class="mobile-nav-btn" id="mnav-today" onclick="goToToday()">
+      <span class="nav-icon">📅</span>
+      <span>Hoje</span>
+    </button>
+    <button class="mobile-nav-btn" id="mnav-add" onclick="openAddExToDay(state.currentDay)">
+      <span class="nav-icon">＋</span>
+      <span>Exercício</span>
+    </button>
+    <button class="mobile-nav-btn" id="mnav-history" onclick="openHistoryModal()">
+      <span class="nav-icon">📊</span>
+      <span>Histórico</span>
+    </button>
+    <button class="mobile-nav-btn" id="mnav-charts" onclick="openChartsPanel()">
+      <span class="nav-icon">📈</span>
+      <span>Gráficos</span>
+    </button>
+  </div>
+</nav>
+
+</body>
+</html>
